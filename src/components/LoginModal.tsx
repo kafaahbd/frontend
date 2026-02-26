@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom"; // ← নেভিগেশনের জন্য
 import axios from "axios";
 
 interface LoginModalProps {
@@ -16,6 +17,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
 }) => {
 	const { t } = useLanguage();
 	const { login, isLoading } = useAuth();
+	const navigate = useNavigate(); // ← নেভিগেশন হুক
 	const [identifier, setIdentifier] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
@@ -35,7 +37,6 @@ const LoginModal: React.FC<LoginModalProps> = ({
 		try {
 			await login(identifier, password);
 			onClose();
-			// Reset form
 			setIdentifier("");
 			setPassword("");
 		} catch (err: any) {
@@ -56,8 +57,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
 		setError("");
 
 		try {
+			// নতুন এন্ডপয়েন্ট: /auth/resend-code (কোড পাঠায়)
 			await axios.post(
-				`${import.meta.env.VITE_API_URL}/auth/resend-verification`,
+				`${import.meta.env.VITE_API_URL}/auth/resend-code`,
 				{
 					email: unverifiedEmail,
 				},
@@ -68,6 +70,12 @@ const LoginModal: React.FC<LoginModalProps> = ({
 		} finally {
 			setResendLoading(false);
 		}
+	};
+
+	const handleGoToVerify = () => {
+		onClose(); // মডাল বন্ধ করুন
+		// ভেরিফিকেশন পৃষ্ঠায় নেভিগেট করুন, ইমেল পাঠান
+		navigate('/verify-code', { state: { email: unverifiedEmail } });
 	};
 
 	return (
@@ -96,20 +104,28 @@ const LoginModal: React.FC<LoginModalProps> = ({
 						<p className="text-gray-600 dark:text-gray-400 mb-4">
 							{t("modal.verificationRequired")}
 						</p>
-						<button
-							onClick={handleResendVerification}
-							disabled={resendLoading}
-							className="px-6 py-2 bg-green-600 dark:bg-blue-600 text-white rounded-lg hover:bg-green-700 dark:hover:bg-blue-700 transition disabled:opacity-50"
-						>
-							{resendLoading ? (
-								<span className="flex items-center justify-center">
-									<i className="fas fa-spinner fa-spin mr-2"></i>
-									{t("modal.sending")}
-								</span>
-							) : (
-								t("modal.resendVerification")
-							)}
-						</button>
+						<div className="space-y-3">
+							<button
+								onClick={handleResendVerification}
+								disabled={resendLoading}
+								className="w-full px-6 py-2 bg-green-600 dark:bg-blue-600 text-white rounded-lg hover:bg-green-700 dark:hover:bg-blue-700 transition disabled:opacity-50"
+							>
+								{resendLoading ? (
+									<span className="flex items-center justify-center">
+										<i className="fas fa-spinner fa-spin mr-2"></i>
+										{t("modal.sending")}
+									</span>
+								) : (
+									t("modal.resendVerification")
+								)}
+							</button>
+							<button
+								onClick={handleGoToVerify}
+								className="w-full px-6 py-2 border border-green-600 dark:border-blue-600 text-green-600 dark:text-blue-400 rounded-lg hover:bg-green-50 dark:hover:bg-blue-900/20 transition"
+							>
+								{t("modal.enterCode") || "Enter verification code"}
+							</button>
+						</div>
 					</div>
 				) : (
 					<form onSubmit={handleSubmit}>
@@ -158,16 +174,19 @@ const LoginModal: React.FC<LoginModalProps> = ({
 					</form>
 				)}
 
-				{error && (
-					<div
-						className={`mb-4 p-3 ${needsVerification ? "bg-yellow-100 dark:bg-yellow-900/30 border-yellow-500" : "bg-red-100 dark:bg-red-900/30 border-red-500"} rounded-md`}
-					>
-						<p
-							className={`text-sm ${needsVerification ? "text-yellow-700 dark:text-yellow-400" : "text-red-700 dark:text-red-400"}`}
-						>
-							<i
-								className={`fas ${needsVerification ? "fa-exclamation-triangle" : "fa-exclamation-circle"} mr-2`}
-							></i>
+				{error && !needsVerification && (
+					<div className="mt-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-500 rounded-md">
+						<p className="text-red-700 dark:text-red-400 text-sm">
+							<i className="fas fa-exclamation-circle mr-2"></i>
+							{error}
+						</p>
+					</div>
+				)}
+
+				{error && needsVerification && (
+					<div className="mt-4 p-3 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-500 rounded-md">
+						<p className="text-yellow-700 dark:text-yellow-400 text-sm">
+							<i className="fas fa-exclamation-triangle mr-2"></i>
 							{error}
 						</p>
 					</div>

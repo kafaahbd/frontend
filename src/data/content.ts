@@ -193,7 +193,24 @@ export const content: Record<string, Record<string, string>> = {
 		"modal.resendFailed":
 			"Failed to resend verification email. Please try again later.",
 		"modal.sending": "Sending...",
-		
+
+		//email verify
+		"verify.title": "Verify Your Email",
+		"verify.subtitle": "We've sent a 6-digit code to",
+		"verify.enterCode": "Enter verification code",
+		"verify.verifyButton": "Verify Email",
+		"verify.verifying": "Verifying...",
+		"verify.success": "Email verified successfully!",
+		"verify.failed": "Verification failed",
+		"verify.enterSixDigitCode": "Please enter the 6-digit code",
+		"verify.didNotReceive": "Didn't receive the code?",
+		"verify.resendButton": "Resend code",
+		"verify.codeResent": "New verification code sent!",
+		"verify.resendFailed": "Failed to resend code",
+		"verify.sending": "Sending...",
+
+		"modal.enterCode": "Enter verification code",
+		"modal.noAccount": "Don't have an account?",
 	},
 	bn: {
 		// Navbar
@@ -384,5 +401,23 @@ export const content: Record<string, Record<string, string>> = {
 		"modal.resendFailed":
 			"ভেরিফিকেশন ইমেল পাঠানো ব্যর্থ হয়েছে। আবার চেষ্টা করুন।",
 		"modal.sending": "পাঠানো হচ্ছে...",
+
+		//verify email
+		"verify.title": "ইমেল ভেরিফাই করুন",
+		"verify.subtitle": "আমরা একটি ৬-ডিজিটের কোড পাঠিয়েছি",
+		"verify.enterCode": "ভেরিফিকেশন কোড দিন",
+		"verify.verifyButton": "ইমেল ভেরিফাই করুন",
+		"verify.verifying": "ভেরিফাই করা হচ্ছে...",
+		"verify.success": "ইমেল সফলভাবে ভেরিফাই হয়েছে!",
+		"verify.failed": "ভেরিফিকেশন ব্যর্থ",
+		"verify.enterSixDigitCode": "অনুগ্রহ করে ৬-ডিজিটের কোড দিন",
+		"verify.didNotReceive": "কোড পাননি?",
+		"verify.resendButton": "আবার কোড পাঠান",
+		"verify.codeResent": "নতুন ভেরিফিকেশন কোড পাঠানো হয়েছে!",
+		"verify.resendFailed": "কোড পাঠানো ব্যর্থ",
+		"verify.sending": "পাঠানো হচ্ছে...",
+
+		"modal.enterCode": "ভেরিফিকেশন কোড দিন",
+		"modal.noAccount": "একাউন্ট নেই?",
 	},
 };

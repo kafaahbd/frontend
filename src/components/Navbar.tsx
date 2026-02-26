@@ -1,17 +1,12 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import LanguageToggle from './LanguageToggle';
 import ThemeToggle from './ThemeToggle';
-import LoginModal from './LoginModal';
-import SignUpModal from './SignUpModal';
 
 const Navbar: React.FC = () => {
   const { t } = useLanguage();
   const { user, logout } = useAuth();
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(false);
 
   return (
     <>
@@ -46,36 +41,18 @@ const Navbar: React.FC = () => {
                   </button>
                 </div>
               ) : (
-                <button
-                  onClick={() => setShowLogin(true)}
+                <Link
+                  to="/login"
                   className="px-4 py-2 bg-green-600 dark:bg-blue-600 text-white rounded-lg hover:bg-green-700 dark:hover:bg-blue-700 transition"
                 >
                   {t('nav.login')}
-                </button>
+                </Link>
               )}
             </div>
           </div>
         </div>
       </nav>
       <div className="h-16"></div>
-
-      <LoginModal 
-        isOpen={showLogin} 
-        onClose={() => setShowLogin(false)} 
-        onSwitchToRegister={() => {
-          setShowLogin(false);
-          setShowSignUp(true);
-        }}
-      />
-
-      <SignUpModal
-        isOpen={showSignUp}
-        onClose={() => setShowSignUp(false)}
-        onSwitchToLogin={() => {
-          setShowSignUp(false);
-          setShowLogin(true);
-        }}
-      />
     </>
   );
 };

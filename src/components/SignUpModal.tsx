@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface SignUpModalProps {
 	isOpen: boolean;
@@ -15,6 +16,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 }) => {
 	const { t } = useLanguage();
 	const { register, isLoading } = useAuth();
+	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		username: "",
 		name: "",
@@ -42,13 +44,11 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 		e.preventDefault();
 		setError("");
 
-		// Validate passwords match
 		if (formData.password !== formData.confirmPassword) {
 			setError(t("modal.passwordsDoNotMatch"));
 			return;
 		}
 
-		// Validate password length
 		if (formData.password.length < 6) {
 			setError(t("modal.passwordTooShort"));
 			return;
@@ -56,19 +56,15 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 
 		try {
 			const { confirmPassword, ...registerData } = formData;
-			// underscore দিয়ে prefix করলে TypeScript সতর্কতা দূর হবে
-			const _response = await register(registerData);
+			const response = await register(registerData);
 
-			// রেজিস্ট্রেশন সফল – মডাল বন্ধ করুন
 			onClose();
 
-			// ইউজারকে সাফল্যের বার্তা দেখান (alert বা টোস্ট)
-			alert(
-				t("modal.registrationSuccess") ||
-					"Registration successful! Please check your email for verification.",
-			);
+			// ভেরিফিকেশন পৃষ্ঠায় নেভিগেট করুন
+			navigate("/verify-code", {
+				state: { email: formData.email },
+			});
 
-			// ফর্ম রিসেট করুন
 			setFormData({
 				username: "",
 				name: "",
@@ -79,9 +75,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 				password: "",
 				confirmPassword: "",
 			});
-
-			// Note: onSwitchToLogin() কল করবেন না, কারণ ইউজার এখনও ইমেল ভেরিফাই করেনি
-			// onSwitchToLogin(); // ❌ সরিয়ে ফেলুন
 		} catch (err: any) {
 			setError(err.message);
 		}
@@ -109,6 +102,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 				)}
 
 				<form onSubmit={handleSubmit} className="space-y-4">
+					{/* সমস্ত ফর্ম ফিল্ড - আগের মতোই */}
 					<div>
 						<label className="block text-sm font-medium mb-1">
 							{t("modal.username")} *
@@ -234,11 +228,10 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 							placeholder="••••••••"
 						/>
 					</div>
-
 					<button
 						type="submit"
 						disabled={isLoading}
-						className="w-full bg-green-600 dark:bg-blue-600 text-white py-2 rounded-md hover:bg-green-700 dark:hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+						className="w-full bg-green-600 dark:bg-blue-600 text-white py-2 rounded-md hover:bg-green-700 dark:hover:bg-blue-700 transition disabled:opacity-50"
 					>
 						{isLoading ? (
 							<span className="flex items-center justify-center">
@@ -257,7 +250,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 							onClose();
 							onSwitchToLogin();
 						}}
-						className="text-sm text-green-600 dark:text-blue-400 hover:underline focus:outline-none"
+						className="text-sm text-green-600 dark:text-blue-400 hover:underline"
 					>
 						{t("modal.alreadyHaveAccount")}
 					</button>
