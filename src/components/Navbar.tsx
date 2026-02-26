@@ -1,17 +1,26 @@
+<<<<<<< HEAD
 import { useState } from 'react';
+=======
+>>>>>>> save-code
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import LanguageToggle from './LanguageToggle';
 import ThemeToggle from './ThemeToggle';
+<<<<<<< HEAD
 import LoginModal from './LoginModal';
 import SignUpModal from './SignUpModal';
+=======
+>>>>>>> save-code
 
 const Navbar: React.FC = () => {
   const { t } = useLanguage();
   const { user, logout } = useAuth();
+<<<<<<< HEAD
   const [showLogin, setShowLogin] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
+=======
+>>>>>>> save-code
 
   return (
     <>
@@ -46,18 +55,28 @@ const Navbar: React.FC = () => {
                   </button>
                 </div>
               ) : (
+<<<<<<< HEAD
                 <button
                   onClick={() => setShowLogin(true)}
                   className="px-4 py-2 bg-green-600 dark:bg-blue-600 text-white rounded-lg hover:bg-green-700 dark:hover:bg-blue-700 transition"
                 >
                   {t('nav.login')}
                 </button>
+=======
+                <Link
+                  to="/login"
+                  className="px-4 py-2 bg-green-600 dark:bg-blue-600 text-white rounded-lg hover:bg-green-700 dark:hover:bg-blue-700 transition"
+                >
+                  {t('nav.login')}
+                </Link>
+>>>>>>> save-code
               )}
             </div>
           </div>
         </div>
       </nav>
       <div className="h-16"></div>
+<<<<<<< HEAD
 
       <LoginModal 
         isOpen={showLogin} 
@@ -76,6 +95,8 @@ const Navbar: React.FC = () => {
           setShowLogin(true);
         }}
       />
+=======
+>>>>>>> save-code
     </>
   );
 };

@@ -3,7 +3,11 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
 	plugins: [react()],
+<<<<<<< HEAD
 	base: "/study-corner/",
+=======
+	base: "/frontend/",
+>>>>>>> save-code
 	server: { port: 5173, open: false },
 	build: {
 		chunkSizeWarningLimit: 1000, // সতর্কতা সীমা বাড়ানো
