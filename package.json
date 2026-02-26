@@ -1,7 +1,7 @@
 {
 	"name": "study-corner",
 	"type": "module",
-	"homepage": "https://kafaahbd.github.io/study-corner",
+	"homepage": "https://kafaahbd.github.io/frontend",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
