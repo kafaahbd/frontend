@@ -175,8 +175,6 @@ export const content: Record<string, Record<string, string>> = {
 		"profile.studyLevel": "Study Level",
 		"profile.group": "Group",
 		"profile.memberSince": "Member Since",
-<<<<<<< HEAD
-=======
 
 		//verify
 		"verification.verifying": "Verifying your email...",
@@ -213,7 +211,6 @@ export const content: Record<string, Record<string, string>> = {
 
 		"modal.enterCode": "Enter verification code",
 		"modal.noAccount": "Don't have an account?",
->>>>>>> save-code
 	},
 	bn: {
 		// Navbar
@@ -387,8 +384,6 @@ export const content: Record<string, Record<string, string>> = {
 		"profile.studyLevel": "শিক্ষা স্তর",
 		"profile.group": "গ্রুপ",
 		"profile.memberSince": "সদস্য হন",
-<<<<<<< HEAD
-=======
 
 		//verify
 		"verification.verifying": "ইমেল ভেরিফাই করা হচ্ছে...",
@@ -424,6 +419,5 @@ export const content: Record<string, Record<string, string>> = {
 
 		"modal.enterCode": "ভেরিফিকেশন কোড দিন",
 		"modal.noAccount": "একাউন্ট নেই?",
->>>>>>> save-code
 	},
 };
